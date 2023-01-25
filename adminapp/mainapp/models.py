@@ -28,12 +28,12 @@ class Question(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return self.question_content
+        return str(self.id)
 
 
 class Answer(models.Model):
     answer_content = models.TextField(null=False, blank=False)
-    career_category = models.ForeignKey(CareerCategory, on_delete=models.SET_NULL, null=True)
+    career_category = models.ForeignKey(CareerCategory, related_name='answers', on_delete=models.SET_NULL, null=True)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.SET_NULL, null=True)
 
     class Meta:
