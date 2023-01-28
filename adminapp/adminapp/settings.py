@@ -41,7 +41,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'oauth2_provider',
     'corsheaders',
+    'drf_yasg',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,8 +95,13 @@ DATABASES = {
 }
 
 #Use with React - it should be turned off if it runs on postman
-OAUTH2_PROVIDER = {
-    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+# OAUTH2_PROVIDER = {
+#     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+# }
+
+OAUTH2_INFO = {
+    'client_id': '7P9bpV8VoCJt5ycbUBTHjmv6kka7bRyeY6LKctrz',
+    'client_secret': 'sT5K0Uv3V5LmBCmSae37GDrqOECyX55AxBUD6c76gKUaQRtIJAbbwSpARz7Hunsw88JAoCyYeX1wz3Yg3D7iGdfgCV3tIecXEQIBXjH7XbxD7S1qC8eNGV8ScoRgOaJd'
 }
 
 # User validation

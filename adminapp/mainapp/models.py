@@ -5,6 +5,10 @@ from django.db import models
 # Create your models here.
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='uploads/%Y/%m')
+    day_of_birth = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.last_name) + " " + str(self.first_name)
 
 
 class CareerCategory(models.Model):
@@ -41,3 +45,17 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer_content
+
+
+class Survey(models.Model):
+    participant = models.ForeignKey(User, related_name='surveys', on_delete=models.CASCADE, null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    result = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return str(User.objects.filter(id=self.participant)) + str(self.finished_time)
+
+
