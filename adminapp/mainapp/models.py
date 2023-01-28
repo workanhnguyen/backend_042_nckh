@@ -32,7 +32,7 @@ class Question(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id) + " - Active: " + str(self.is_active)
 
 
 class Answer(models.Model):
@@ -56,6 +56,6 @@ class Survey(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return str(User.objects.filter(id=self.participant)) + str(self.finished_time)
+        return str(self.participant) + " --> " + str(self.created_date)
 
 
