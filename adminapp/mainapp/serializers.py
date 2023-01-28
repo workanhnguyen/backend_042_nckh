@@ -10,16 +10,12 @@ class SurveySerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
-    surveys = SurveySerializer()
 
     class Meta:
         model = User
-        fields = ["id", "first_name", "last_name", "username",
-                  "password", "email", "day_of_birth", "avatar", "surveys"]
+        fields = ["id", "first_name", "last_name", "username", "password", "email", "day_of_birth", "avatar"]
 
-        extra_kwagrs = {
-            "password": {'write_only': 'true'}
-        }
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         user = User(**validated_data)

@@ -60,11 +60,15 @@ class UserViewSet(viewsets.ViewSet,
                   generics.CreateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+    def get_permissions(self):
+        if ["get_current_user", "get_surveys", "add_survey"].__contains__(self.action):
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
 
     @action(methods=['get'], detail=False, url_path='current-user')
     def get_current_user(self, request):
-        return Response(self.serializer_class(request.user, context={'request': request}).data,
+        return Response(self.serializer_class(request.user).data,
                         status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=False, url_path='current-user/surveys')

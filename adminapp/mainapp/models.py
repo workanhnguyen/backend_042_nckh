@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='uploads/%Y/%m')
+    avatar = models.ImageField(upload_to='uploads/%Y/%m', null=True)
     day_of_birth = models.DateField(null=True, blank=True)
 
     def __str__(self):
