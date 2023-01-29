@@ -59,3 +59,12 @@ class Survey(models.Model):
         return str(self.participant) + " --> " + str(self.created_date)
 
 
+class University(models.Model):
+    name = models.TextField(null=False, blank=True)
+    link = models.TextField(null=False, blank=False)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
