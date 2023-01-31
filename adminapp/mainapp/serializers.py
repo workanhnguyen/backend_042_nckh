@@ -38,6 +38,7 @@ class AnswerSerializer(ModelSerializer):
 
 
 class QuestionSerializer(ModelSerializer):
+    answers = AnswerSerializer(many=True)
     class Meta:
         model = Question
         fields = "__all__"
