@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser
 from rest_framework import viewsets, generics, status, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
@@ -38,7 +39,7 @@ class QuestionViewSet(viewsets.ViewSet,
                       generics.RetrieveAPIView):
     queryset = Question.objects.filter(is_active=True)
     serializer_class = QuestionSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     @action(methods=['get'], detail=True, url_path='answers')
     def get_answers(self, request, pk):
@@ -60,6 +61,7 @@ class UserViewSet(viewsets.ViewSet,
                   generics.CreateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
+    parser_classes = [MultiPartParser, ]
 
     def get_permissions(self):
         if ["get_current_user", "get_surveys", "add_survey"].__contains__(self.action):

@@ -6,7 +6,7 @@ from .models import CareerCategory, Question, Answer, User, Survey
 class SurveySerializer(ModelSerializer):
     class Meta:
         model = Survey
-        fields = ["id", "result", "participant"]
+        fields = ["id", "result", "participant", "created_date"]
 
 
 class UserSerializer(ModelSerializer):
