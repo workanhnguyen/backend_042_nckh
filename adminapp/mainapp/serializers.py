@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from .models import CareerCategory, Question, Answer, User, Survey
 
@@ -10,6 +10,16 @@ class SurveySerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    # avatar = SerializerMethodField()
+    #
+    # def get_avatar(self, user):
+    #     request = self.context['request']
+    #     name = user.avatar.name
+    #     if name.startswith("static/"):
+    #         path = '/%s' % name
+    #     else:
+    #         path = '/static/%s' % name
+    #     return request.build_absolute_uri(path)
 
     class Meta:
         model = User
