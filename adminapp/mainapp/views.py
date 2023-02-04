@@ -24,7 +24,7 @@ class CareerCategoryViewSet(viewsets.ViewSet,
                             generics.RetrieveAPIView):
     queryset = CareerCategory.objects.all()
     serializer_class = CareerCategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     @action(methods=['get'], detail=True, url_path='answers')
     def get_answers(self, request, pk):
@@ -32,6 +32,12 @@ class CareerCategoryViewSet(viewsets.ViewSet,
 
         return Response(AnswerSerializer(answers, many=True).data,
                         status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=False, url_path='count')
+    def get_answers(self, request):
+        count = CareerCategory.objects.count();
+
+        return Response(count, status=status.HTTP_200_OK)
 
 
 class QuestionViewSet(viewsets.ViewSet,

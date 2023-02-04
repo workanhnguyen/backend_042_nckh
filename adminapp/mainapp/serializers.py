@@ -36,6 +36,17 @@ class UserSerializer(ModelSerializer):
 
 
 class CareerCategorySerializer(ModelSerializer):
+    image = SerializerMethodField()
+
+    def get_image(self, career_category):
+        request = self.context['request']
+        name = career_category.image.name
+        if name.startswith("static/"):
+            path = '/%s' % name
+        else:
+            path = '/static/%s' % name
+        return request.build_absolute_uri(path)
+
     class Meta:
         model = CareerCategory
         fields = "__all__"
