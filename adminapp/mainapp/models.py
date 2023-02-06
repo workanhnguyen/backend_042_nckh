@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
@@ -50,10 +51,10 @@ class Answer(models.Model):
 class Survey(models.Model):
     participant = models.ForeignKey(User, related_name='surveys', on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
-    result = models.TextField(null=True, blank=True)
+    result = RichTextField(null=True)
 
     class Meta:
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return str(self.participant) + " --> " + str(self.created_date)

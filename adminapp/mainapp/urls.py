@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework import routers
 from . import views
 
@@ -11,5 +11,6 @@ router.register("surveys", views.SurveyViewSet, 'survey')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('oauth2-info/', views.AuthInfo.as_view())
+    path('oauth2-info/', views.AuthInfo.as_view()),
+    re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
