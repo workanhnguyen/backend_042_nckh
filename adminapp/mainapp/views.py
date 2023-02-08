@@ -77,11 +77,12 @@ class UserViewSet(viewsets.ViewSet,
 
     @action(methods=['patch'], detail=False, url_path='current-user/update')
     def update_user(self, request):
-        User.objects.filter(pk=request.user.id).update(first_name=request.data.get('first_name'),
-                                                       last_name=request.data.get('last_name'),
-                                                       email=request.data.get('email'),
-                                                       day_of_birth=request.data.get('day_of_birth'),
-                                                       avatar=request.data.get('avatar'))
+        user = User.objects.filter(pk=request.user.id)
+        user.update(first_name=request.data.get('first_name'),
+                    last_name=request.data.get('last_name'),
+                    email=request.data.get('email'),
+                    day_of_birth=request.data.get('day_of_birth'),
+                    avatar=request.data.get('avatar'))
         return Response(self.serializer_class(User.objects.get(pk=request.user.id)).data,
                         status=status.HTTP_200_OK)
 
