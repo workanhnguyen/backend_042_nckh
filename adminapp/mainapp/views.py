@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from django.shortcuts import render
 from rest_framework import viewsets, generics
 from django.conf import settings
+import os
 
 from .models import CareerCategory, Question, Answer, User, Survey
 from .serializers import (CareerCategorySerializer,
@@ -64,8 +65,7 @@ class AnswerViewSet(viewsets.ViewSet,
 
 
 class UserViewSet(viewsets.ViewSet,
-                  generics.CreateAPIView,
-                  generics.UpdateAPIView):
+                  generics.CreateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     parser_classes = [MultiPartParser, ]
@@ -77,12 +77,19 @@ class UserViewSet(viewsets.ViewSet,
 
     @action(methods=['patch'], detail=False, url_path='current-user/update')
     def update_user(self, request):
-        user = User.objects.filter(pk=request.user.id)
-        user.update(first_name=request.data.get('first_name'),
-                    last_name=request.data.get('last_name'),
-                    email=request.data.get('email'),
-                    day_of_birth=request.data.get('day_of_birth'),
-                    avatar=request.data.get('avatar'))
+        user = User.objects.get(id=request.user.id)
+
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.day_of_birth = request.POST.get('day_of_birth')
+
+        if len(request.FILES) != 0:
+            if len(user.avatar) > 0:
+                os.remove(user.avatar.path)
+            user.avatar = request.FILES['avatar']
+        user.save()
+
         return Response(self.serializer_class(User.objects.get(pk=request.user.id)).data,
                         status=status.HTTP_200_OK)
 
