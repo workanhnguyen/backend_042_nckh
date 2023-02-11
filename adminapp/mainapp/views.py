@@ -34,9 +34,9 @@ class CareerCategoryViewSet(viewsets.ViewSet,
         return Response(AnswerSerializer(answers, many=True).data,
                         status=status.HTTP_200_OK)
 
-    @action(methods=['get'], detail=False, url_path='count')
-    def get_answers(self, request):
-        count = CareerCategory.objects.count();
+    @action(methods=['get'], detail=False, url_path='total-category')
+    def get_total_category(self, request):
+        count = CareerCategory.objects.count()
 
         return Response(count, status=status.HTTP_200_OK)
 
