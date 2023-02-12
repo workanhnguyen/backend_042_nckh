@@ -10,12 +10,14 @@ from rest_framework import viewsets, generics
 from django.conf import settings
 import os
 
-from .models import CareerCategory, Question, Answer, User, Survey
+from .models import CareerCategory, Question, Answer, User, Survey, University, FeedBack
 from .serializers import (CareerCategorySerializer,
                           QuestionSerializer,
                           AnswerSerializer,
                           UserSerializer,
-                          SurveySerializer)
+                          SurveySerializer,
+                          UniversitySerializer,
+                          FeedBackSerializer)
 
 
 # Create your views here.
@@ -34,8 +36,13 @@ class CareerCategoryViewSet(viewsets.ViewSet,
         return Response(AnswerSerializer(answers, many=True).data,
                         status=status.HTTP_200_OK)
 
+<<<<<<< HEAD
     @action(methods=['get'], detail=False, url_path='total-category')
     def get_total_category(self, request):
+=======
+    @action(methods=['get'], detail=False, url_path='count')
+    def get_answers(self, request):
+>>>>>>> 98a3210b05c1b553ac9d1d05e710a480b5278d5b
         count = CareerCategory.objects.count()
 
         return Response(count, status=status.HTTP_200_OK)
@@ -122,5 +129,19 @@ class AuthInfo(APIView):
 class SurveyViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = Survey.objects.all()
     serializer_class = SurveySerializer
+
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class UniversityViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = University.objects.all()
+    serializer_class = UniversitySerializer
+
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class FeedBackViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView):
+    queryset = FeedBack.objects.all()
+    serializer_class = FeedBackSerializer
 
     permission_classes = [permissions.IsAuthenticated]

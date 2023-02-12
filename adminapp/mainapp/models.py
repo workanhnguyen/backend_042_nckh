@@ -25,6 +25,7 @@ class CareerCategory(models.Model):
         return self.category_name
 
 
+
 class Question(models.Model):
     question_content = models.TextField(null=False, blank=False)
     is_active = models.BooleanField(default=True)
@@ -69,3 +70,11 @@ class University(models.Model):
 
     def __str__(self):
         return self.name
+
+class FeedBack(models.Model):
+    title = models.TextField(null=False, blank=True)
+    content = models.TextField(null=False, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.title
