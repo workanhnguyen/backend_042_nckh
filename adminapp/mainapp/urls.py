@@ -8,6 +8,8 @@ router.register("questions", views.QuestionViewSet, "question")
 router.register("answers", views.AnswerViewSet, "answer")
 router.register("users", views.UserViewSet, 'user')
 router.register("surveys", views.SurveyViewSet, 'survey')
+router.register("universities", views.UniversityViewSet, 'university')
+router.register("feedbacks", views.FeedBackViewSet, 'feedBack')
 
 urlpatterns = [
     path('', include(router.urls)),

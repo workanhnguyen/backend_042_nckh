@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import CareerCategory, Question, Answer, User, Survey
+from .models import CareerCategory, Question, Answer, User, Survey, University, FeedBack
 
 
 class SurveySerializer(ModelSerializer):
@@ -35,6 +35,12 @@ class UserSerializer(ModelSerializer):
         return user
 
 
+
+class UniversitySerializer(ModelSerializer):
+    class Meta:
+        model = University
+        fields = "__all__"
+
 class CareerCategorySerializer(ModelSerializer):
     image = SerializerMethodField()
 
@@ -63,4 +69,10 @@ class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
         fields = "__all__"
+
+class FeedBackSerializer(ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = FeedBack
+        fields = ["id", "user", "title", "content"]
 
