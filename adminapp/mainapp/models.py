@@ -64,6 +64,8 @@ class Survey(models.Model):
 class University(models.Model):
     name = models.TextField(null=False, blank=True)
     link = models.TextField(null=False, blank=False)
+    img = models.ImageField(upload_to='img_uploads/%Y/%m', null=True)
+
 
     class Meta:
         ordering = ['name']

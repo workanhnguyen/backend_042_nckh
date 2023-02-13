@@ -67,7 +67,8 @@ class AnswerViewSet(viewsets.ViewSet,
 
 
 class UserViewSet(viewsets.ViewSet,
-                  generics.CreateAPIView):
+                  generics.CreateAPIView,
+                  generics.ListAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     parser_classes = [MultiPartParser, ]
@@ -132,7 +133,7 @@ class UniversityViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer
 
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class FeedBackViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView):
