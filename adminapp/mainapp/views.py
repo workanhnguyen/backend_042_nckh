@@ -28,7 +28,7 @@ class CareerCategoryViewSet(viewsets.ViewSet,
     queryset = CareerCategory.objects.all()
     serializer_class = CareerCategorySerializer
 
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     @action(methods=['get'], detail=True, url_path='answers')
     def get_answers(self, request, pk):
@@ -74,10 +74,10 @@ class UserViewSet(viewsets.ViewSet,
     serializer_class = UserSerializer
     parser_classes = [MultiPartParser, ]
 
-    # def get_permissions(self):
-    #     if ["get_current_user", "get_surveys", "add_survey"].__contains__(self.action):
-    #         return [permissions.IsAuthenticated()]
-    #     return [permissions.AllowAny()]
+    def get_permissions(self):
+        if ["get_current_user", "get_surveys", "add_survey"].__contains__(self.action):
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
 
     @action(methods=['patch'], detail=False, url_path='current-user/update')
     def update_user(self, request):
@@ -117,17 +117,6 @@ class UserViewSet(viewsets.ViewSet,
         return Response(SurveySerializer(s).data,
                         status=status.HTTP_201_CREATED)
 
-    @action(methods=['post'], detail=False, url_path='current-user/add-feedback')
-    def add_survey(self, request):
-        current_user = request.user
-        f = FeedBack.objects.create(user=request.user,
-                                    title=request.data.get('title'),
-                                    content=request.data.get('content'))
-        current_user.feedbacks.add(f)
-        current_user.save()
-        return Response(FeedBackSerializer(f).data,
-                        status=status.HTTP_201_CREATED)
-
 
 class AuthInfo(APIView):
     def get(self, request):
@@ -145,11 +134,23 @@ class UniversityViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer
 
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class FeedBackViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView):
     queryset = FeedBack.objects.all()
     serializer_class = FeedBackSerializer
+    parser_classes = [MultiPartParser, ]
 
     permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['post'], detail=False, url_path='add-feedback')
+    def add_feedback(self, request):
+        current_user = request.user
+        f = FeedBack.objects.create(user=request.user,
+                                    title=request.data.get('title'),
+                                    content=request.data.get('content'))
+        current_user.feedbacks.add(f)
+        current_user.save()
+        return Response(FeedBackSerializer(f).data,
+                        status=status.HTTP_201_CREATED)
