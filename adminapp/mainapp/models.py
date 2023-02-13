@@ -5,7 +5,7 @@ from ckeditor.fields import RichTextField
 
 # Create your models here.
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='uploads/%Y/%m', null=True)
+    avatar = models.ImageField(upload_to='uploads/user/%Y/%m', null=True)
     day_of_birth = models.DateField(null=True, blank=True)
 
     def __str__(self):
@@ -15,6 +15,7 @@ class User(AbstractUser):
 class CareerCategory(models.Model):
     category_name = models.TextField(null=False, blank=False)
     explained_content = models.TextField(null=False, blank=False)
+    detail = models.TextField(null=False, blank=False)
     career_content = models.TextField(null=False, blank=False)
     image = models.ImageField(upload_to='images/category/%Y/%m', null=True)
 

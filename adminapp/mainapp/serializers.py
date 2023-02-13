@@ -17,7 +17,6 @@ class FeedBackSerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
-    feedbacks = FeedBackSerializer(many=True)
     # avatar = SerializerMethodField()
     #
     # def get_avatar(self, user):
@@ -32,7 +31,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "first_name", "last_name", "username", "password", "email", "day_of_birth", "avatar", "feedbacks"]
+        fields = ["id", "first_name", "last_name", "username", "password", "email", "day_of_birth", "avatar"]
 
         extra_kwargs = {'password': {'write_only': True}}
 
