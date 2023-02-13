@@ -9,21 +9,30 @@ class SurveySerializer(ModelSerializer):
         fields = ["id", "result", "participant", "created_date"]
 
 
+class FeedBackSerializer(ModelSerializer):
+
+    class Meta:
+        model = FeedBack
+        fields = ["id", "user", "title", "content"]
+
+
 class UserSerializer(ModelSerializer):
+    feedbacks = FeedBackSerializer(many=True)
     # avatar = SerializerMethodField()
     #
     # def get_avatar(self, user):
-    #     request = self.context['request']
-    #     name = user.avatar.name
-    #     if name.startswith("static/"):
-    #         path = '/%s' % name
-    #     else:
-    #         path = '/static/%s' % name
-    #     return request.build_absolute_uri(path)
+    #     if user.avatar is not None:
+    #         request = self.context['request']
+    #         name = user.avatar.name
+    #         if name.startswith("static/"):
+    #             path = '/%s' % name
+    #         else:
+    #             path = '/static/%s' % name
+    #         return request.build_absolute_uri(path)
 
     class Meta:
         model = User
-        fields = ["id", "first_name", "last_name", "username", "password", "email", "day_of_birth", "avatar"]
+        fields = ["id", "first_name", "last_name", "username", "password", "email", "day_of_birth", "avatar", "feedbacks"]
 
         extra_kwargs = {'password': {'write_only': True}}
 
@@ -35,11 +44,23 @@ class UserSerializer(ModelSerializer):
         return user
 
 
-
 class UniversitySerializer(ModelSerializer):
+    image = SerializerMethodField()
+
+    def get_image(self, university):
+        if university.image is not None:
+            request = self.context['request']
+            name = university.image.name
+            if name.startswith("static/"):
+                path = '/%s' % name
+            else:
+                path = '/static/%s' % name
+            return request.build_absolute_uri(path)
+
     class Meta:
         model = University
         fields = "__all__"
+
 
 class CareerCategorySerializer(ModelSerializer):
     image = SerializerMethodField()
@@ -66,13 +87,9 @@ class AnswerSerializer(ModelSerializer):
 
 class QuestionSerializer(ModelSerializer):
     answers = AnswerSerializer(many=True)
+
     class Meta:
         model = Question
         fields = "__all__"
 
-class FeedBackSerializer(ModelSerializer):
-    user = UserSerializer()
-    class Meta:
-        model = FeedBack
-        fields = ["id", "user", "title", "content"]
 

@@ -16,14 +16,13 @@ class CareerCategory(models.Model):
     category_name = models.TextField(null=False, blank=False)
     explained_content = models.TextField(null=False, blank=False)
     career_content = models.TextField(null=False, blank=False)
-    image = models.ImageField(upload_to='images/%Y/%m', null=True)
+    image = models.ImageField(upload_to='images/category/%Y/%m', null=True)
 
     class Meta:
         ordering = ['id']
 
     def __str__(self):
         return self.category_name
-
 
 
 class Question(models.Model):
@@ -64,6 +63,7 @@ class Survey(models.Model):
 class University(models.Model):
     name = models.TextField(null=False, blank=True)
     link = models.TextField(null=False, blank=False)
+    image = models.ImageField(upload_to='images/university/%Y/%m', null=True)
 
     class Meta:
         ordering = ['name']
@@ -71,10 +71,11 @@ class University(models.Model):
     def __str__(self):
         return self.name
 
+
 class FeedBack(models.Model):
     title = models.TextField(null=False, blank=True)
     content = models.TextField(null=False, blank=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, related_name='feedbacks', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title
